@@ -1,24 +1,39 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import { themes, ThemeContext } from './context/ThemeContext';
+import Headline from './context/Headline';
+import Paragraph from './context/Paragraph';
+import ThemeButton from './context/ThemeButton';
 
 function App() {
+
+  const [state, setState] = useState({
+    theme: themes.dark
+  });
+
+  const toggleTheme = () => {
+    if (state.theme === themes.dark) {
+      setState({
+        theme: themes.light
+      })
+    } else {
+      setState({
+        theme: themes.dark
+      })
+    }
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeContext.Provider value={state.theme}>
+      <div className="App">
+        <Headline>
+          Context
+        </Headline>
+        <Paragraph>
+          Context provides a way to pass data through the component tree without having to pass props down manually at every level.
+        </Paragraph>
+        <ThemeButton toggleTheme={toggleTheme} />
+      </div>
+    </ThemeContext.Provider>
   );
 }
 
